@@ -1,0 +1,5 @@
+file 'video_part_0.mp4'
+file 'video_part_1.mp4'
+file 'video_part_2.mp4'
+file 'video_part_3.mp4'
+E:/ffmpeg/bin/ffmpeg -y -f concat -i C:/Users/l12082/workspace/2017p2/src/lista.txt -c copy C:/Users/l12082/workspace/2017p2/src/ready.mp4

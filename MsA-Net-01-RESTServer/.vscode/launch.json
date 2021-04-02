@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-LolipopApplication<ex1>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "BoostrapRat.LolipopApplication",
+            "projectName": "ex1",
+            "args": ""
+        }
+    ]
+}

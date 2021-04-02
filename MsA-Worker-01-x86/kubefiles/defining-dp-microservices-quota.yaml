@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: dp-microservices-quota
+spec:
+  hard:
+    limits.cpu: "10"
+    limits.memory: 19Gi
+    pods: "20"

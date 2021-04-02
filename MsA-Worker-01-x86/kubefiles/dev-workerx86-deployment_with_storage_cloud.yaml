@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dev-workerx86
+  labels:
+    tier: backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dev-workerx86
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: dev-workerx86
+        tier: backend
+    spec:
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: azurefile
+      containers:
+      - name: dev-workerx86
+        image: dpetrocelli/dev-workerx86
+        volumeMounts:
+        - name: data
+          mountPath: /tmp

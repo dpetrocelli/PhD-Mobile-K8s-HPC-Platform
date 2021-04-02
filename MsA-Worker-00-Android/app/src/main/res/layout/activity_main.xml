@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/process_task_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Start"/>
+
+        </LinearLayout>
+        <!--android:layout_width="250dp"-->
+        <EditText
+            android:id="@+id/et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:padding="5dp"
+            android:layout_marginBottom="5dp"
+            android:hint=" App Log MSGs  "
+            android:fontFamily="sans-serif-condensed"
+            android:textSize="14dp"
+            android:background="#d3d7b6"
+            android:minLines="1"
+            android:maxLines="40"
+            android:scrollbars="vertical"
+            android:inputType="textMultiLine"
+            />
+    </LinearLayout>
+</RelativeLayout>

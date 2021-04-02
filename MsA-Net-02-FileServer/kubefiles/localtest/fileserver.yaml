@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  fileserver:
+    image: dpetrocelli/dev-fileserver:latest
+    ports:
+      - '8080:8080'
+    volumes:
+      - /tmp/storage:/home/storage

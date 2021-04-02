@@ -1,0 +1,13 @@
+version: '3'
+services:
+  workers:
+    image: dpetrocelli/dev-workerx86:latest
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2000M
+        reservations:
+          cpus: '0.25'
+          memory: 200M

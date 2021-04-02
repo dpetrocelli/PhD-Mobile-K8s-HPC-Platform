@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dev-restserver
+  labels:
+    tier: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: dev-restserver
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: dev-restserver
+        tier: backend
+    spec:
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: azurefile
+      containers:
+      - name: dev-restserver
+        image: dpetrocelli/dev-restserver
+        volumeMounts:
+        - name: data
+          mountPath: /tmp

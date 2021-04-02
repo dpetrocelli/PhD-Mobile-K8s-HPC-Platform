@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dev-threadunifier
+  labels:
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dev-threadunifier
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: dev-threadunifier
+        tier: backend
+    spec:
+      containers:
+      - name: dev-threadunifier
+        image: dpetrocelli/dev-threadunifier
+        resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits:
+            cpu: 2000m
+            memory: 1500Mi

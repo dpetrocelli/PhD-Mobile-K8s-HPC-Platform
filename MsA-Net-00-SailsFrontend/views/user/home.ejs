@@ -1,0 +1,443 @@
+<!--
+This is your default homepage.
+For more information, see:
+• https://sailsjs.com/documentation/concepts/views
+• https://sailsjs.com/documentation/concepts/routes
+-->
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400" rel="stylesheet">
+<link href="/plugins/video.js/video.css" rel="stylesheet">
+
+
+<style>
+  .table{
+    font-size: 0.6em;
+  }
+  #videoDiv{
+    position: absolute;
+    z-index: 9999;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #0000006b;
+    display: none;
+  }
+</style>
+
+<div class="default-page">
+  <div class="preloader js-preloader flex-center">
+      <div class="dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    </div>
+    
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" style="font-size: 1.7em;" href="#">DS</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Be Feeder!</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Logout</a>
+        </li>
+        <li class="nav-item">
+          <span class="nav-link" style="right: 1em; position: absolute;"><%= username %></span>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="main container clearfix">
+    <div>
+      <h3>Select files</h3>
+      <div class="file-container" id="uploaderContainerMain" style="overflow-y: scroll; overflow-x: hidden; max-height: 70vh;">
+        <div class="card col-sm-12 m-2">
+          <div class="card-body">
+            <h5 class="card-title">File to upload</h5>
+            <p class="card-text">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" onchange="appendFile(this)">
+                <label class="custom-file-label">Choose file</label>
+              </div>
+            </p>
+            <div class="contenidoVideo"></div>
+            <div class="hiddenData" style="display:none;"></div>
+          </div>
+        </div>
+        <div class="card col-sm-12 m-2">
+          <div class="card-body">
+            <h5 class="card-title">File to upload</h5>
+            <p class="card-text">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" onchange="appendFile(this)">
+                <label class="custom-file-label">Choose file</label>
+              </div>
+            </p>
+            <div class="contenidoVideo"></div>
+          </div>
+        </div>
+        <div class="card col-sm-12 m-2">
+          <div class="card-body">
+            <h5 class="card-title">File to upload</h5>
+            <p class="card-text">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" onchange="appendFile(this)">
+                <label class="custom-file-label">Choose file</label>
+              </div>
+            </p>
+            <div class="contenidoVideo"></div>
+          </div>
+        </div>
+
+
+        <div class="card col-sm-12 m-2">
+          <div class="card-body row justify-content-center align-items-center">
+            <button type="button" class="btn btn-primary btn-success w-50" data-toggle="button" aria-pressed="false" onclick="addUploadSlot(this)">
+              Add slot
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 row align-items-center">
+        System log:<br>
+        <code id="uploadLog" style="background-color: black; padding: 0.5em;">
+          Actions are the principal objects in your Sails application that are responsible for responding to requests from a web browser, mobile application or any other system capable of communicating with a server. They often act as a middleman between your models and views. With rare exceptions, the actions will orchestrate 
+        </code>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="videoDiv">
+</div>
+
+<script type="text/javascript" src="/plugins/video.js/video.js"> </script>
+<script>
+  var openVideo = function(url){
+    var video = ` <video
+                    id="videoPlayer"
+                    class="video-js"
+                    controls
+                    preload="auto"
+                    width="640"
+                    height="264"
+                    data-setup="{}">
+                    <source src="${url}" type="video/mp4" />
+                    <p class="vjs-no-js">
+                      To view this video please enable JavaScript, and consider upgrading to a
+                      web browser that
+                      <a href="https://videojs.com/html5-video-support/" target="_blank"
+                        >supports HTML5 video</a
+                      >
+                    </p>
+                  </video>`
+    $('#videoDiv').css({'display':'flex'});
+    $('#videoDiv').append(video);
+  }
+  $('#videoDiv').on('click',(evt)=>{
+    if(evt.target.id === "videoDiv"){
+      $('#videoPlayer').remove();
+      $('#videoDiv').css({'display':'none'});
+    }
+  })
+</script>
+
+<script type="text/javascript">
+  //$("#file").pekeUpload({theme:'bootstrap', bootstrap:true, url: '/uploader/upload' });
+
+   
+  var arrFormData = {};
+
+  function addUploadSlot(evt){
+    var createdSlot = `<div class="card col-sm-12 m-2">
+                        <div class="card-body">
+                          <h5 class="card-title">File to upload</h5>
+                          <p class="card-text">
+                            <div class="custom-file">
+                              <input type="file" class="custom-file-input" onchange="appendFile(this)">
+                              <label class="custom-file-label">Choose file</label>
+                            </div>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="card col-sm-12 m-2">
+                        <div class="card-body row justify-content-center align-items-center">
+                          <button type="button" class="btn btn-primary btn-success w-50" data-toggle="button" aria-pressed="false" onclick="addUploadSlot(this)">
+                            Add slot
+                          </button>
+                        </div>
+                      </div>`
+
+    $(evt).parent().parent().remove();
+    $('#uploaderContainerMain').append(createdSlot);
+  }
+
+
+  function appendFile(inp) {
+    var card = $(inp).parent().parent().find('.contenidoVideo');
+    var id = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
+    $(inp).parent().parent().find('.contenidoVideo').empty();
+    card.append(`<h5 class="card-title">Adjust settings</h5>
+              <div class="row">
+                <div class="col-sm-3 align-self-center">
+                  <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" onclick="uploadVideo(this,'${id}')">
+                    Start upload
+                  </button>
+                </div>
+                <div class="col-sm-8 d-flex">
+                  <div class="col-sm-6">
+                    <span class="w-100 row mb-3 mt-3">Name: ${inp.files[0].name}</span>
+                    <span class="w-100 row mb-3 mt-3 size">Size: ${inp.files[0].size} bytes</span>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="m-1">
+                      <span class="mr-2 align-self-center">Quality: </span>
+                      <div>
+                        <div class="form-check">
+                          <input type="checkbox" class="form-check-input check480" value="480">
+                          <label class="form-check-label" for="check480">480p</label>
+                        </div>
+                        <div class="form-check">
+                          <input type="checkbox" class="form-check-input check720" value="720">
+                          <label class="form-check-label" for="check720p">720p</label>
+                        </div>
+                        <div class="form-check">
+                          <input type="checkbox" class="form-check-input checkFHD" value="hd">
+                          <label class="form-check-label" for="checkFHD">FullHD</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="btn-group btn-group-toggle m-1" data-toggle="buttons">
+                      <span class="mr-2 align-self-center">Server: </span>
+                      <label class="btn btn-secondary">
+                        <input type="radio" name="server" id="server-amazon" disabled> Amazon
+                      </label>
+                      <label class="btn btn-secondary">
+                        <input type="radio" name="server" id="server-azure" disabled> Azure
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                `)
+    try {
+      let formData = new FormData();
+      formData.append("file", inp.files[0]);
+      arrFormData[id] = formData;
+    } catch (error) {
+      console.log("error------->",error)
+    }
+  }
+
+  async function uploadVideo(evt,id){
+    var container = $(evt).parent().parent();
+    let quality = function(){
+      let q = {
+        _480: {
+          elm: $(evt).parent().parent().find(".check480"),
+          checked: $(evt).parent().parent().find(".check480").prop('checked')
+        },
+        _720: {
+          elm: $(evt).parent().parent().find(".check720"),
+          checked: $(evt).parent().parent().find(".check720").prop('checked')
+        },
+        _FHD: {elm: $(evt).parent().parent().find(".checkFHD"), checked: $(evt).parent().parent().find(".checkFHD").prop('checked')}
+      }
+      let arr = [];
+      Object.keys(q).forEach((i,e)=>{ q[i].checked ? arr.push(q[i].elm) : false; });
+      numberChk = "";
+      let str = ""
+      Object.keys(q).forEach((k,i) => {
+        if(q[k].checked){
+          str += ((arr.length > i+1)) ? q[k].elm.val()+"-" : q[k].elm.val();
+        }
+      });
+      return str;
+    }
+    let user = "<%=username%>"; //52.186.35.129   8081
+    let url = `http://<%= backendUrl %>/upload?user=${user}&encodingParams=${quality()}`;
+    let formData = arrFormData[id];
+
+    try {
+      $('body').loader('show');
+      let r = await $.ajax({
+        url,
+        type: "POST",
+        data: formData,
+        processData: false,  // tell jQuery not to process the data
+        contentType: false   // tell jQuery not to set contentType
+      });
+      if(r){
+        let name;
+        formData.forEach(e => {
+          if(e.name){
+            name = e.name;
+            return;
+          }
+        });
+        let resp = await $.post('/uploader/getJob',{file: name});
+        let contenidoVideo = container.parent().parent().find('.contenidoVideo');
+        let hiddenData = container.parent().parent().find('.hiddenData');
+        contenidoVideo.empty();
+        if(Array.isArray(resp)){
+          let table = `<table class="table enProceso">
+                        <thead>
+                          <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Init time</th>
+                            <th scope="col">State</th>
+                            <th scope="col">Storage</th>
+                            <th scope="col">Total Parts</th>
+                            <th scope="col">Quality</th>
+                          </tr>
+                        </thead>
+                        <tbody>`
+          resp.forEach(e => {
+            table += `<tr>
+                        <th scope="row">${e.id}</th>
+                        <td>${e.assignedQueue}</td>
+                        <td>${new Date(e.initTime).toLocaleString()}</td>
+                        <td>${e.state}</td>
+                        <td>${e.storageprovider}</td>
+                        <td>${e.totalparts}</td>
+                        <td>${e.params}</td>
+                      </tr>`
+          });
+          table += `</tbody>
+                  </table>`
+          contenidoVideo.html(`<div>${table}</div><div class="terminados table-success"></div>`);
+          hiddenData.attr('content-data',JSON.stringify(resp));
+          $('body').loader('hide');
+          let finished = await finishedProcess(name,contenidoVideo);         
+        }
+        $('body').loader('hide');
+      }
+    } catch(e) {
+       console.log('Huston we have problem...:', e);
+      $('body').loader('hide');
+    }
+  }
+
+
+  var finishedProcess = function (name,container){
+    return new Promise((resolve,reject)=>{
+      try {
+        var resp;
+        var data = JSON.parse(container.parent().parent().find('.hiddenData').attr('content-data'));
+        setTimeout(async () => {
+          resp = await $.post('/uploader/getJob',{file: name});
+          console.log("En proceso ===>",resp);
+          if(resp.length || resp.length == 0){ // HAY PROCESANDO
+            var table = `<table class="table enProceso">
+                          <thead>
+                            <tr>
+                              <th scope="col">ID</th>
+                              <th scope="col">Name</th>
+                              <th scope="col">Init time</th>
+                              <th scope="col">State</th>
+                              <th scope="col">Storage</th>
+                              <th scope="col">Total Parts</th>
+                              <th scope="col">Quality</th>
+                            </tr>
+                          </thead>
+                          <tbody>`
+            resp.forEach(e => { //AGREGO LOS PROCESANDO
+              table += `<tr>
+                          <th scope="row">${e.id}</th>
+                          <td>${e.assignedQueue}</td>
+                          <td>${new Date(e.initTime).toLocaleString()}</td>
+                          <td>${e.state}</td>
+                          <td>${e.storageprovider}</td>
+                          <td>${e.totalparts}</td>
+                          <td>${e.params}</td>
+                        </tr>`
+            });
+            table += `</tbody>
+                    </table>`
+
+            var terminados = data.filter(a => !resp.some(b => comparator(a, b))); // OBTENGO LOS TERMINADOS
+            if(terminados.length){
+              var tableTerminados = $('<table></table>');
+              tableTerminados.attr('class','table');
+              tableTerminados.append(`<thead>
+                            <tr>
+                              <th scope="col">ID</th>
+                              <th scope="col">Name</th>
+                              <th scope="col">Execution time</th>
+                              <th scope="col">State</th>
+                              <th scope="col">Storage</th>
+                              <th scope="col">Total Parts</th>
+                              <th scope="col">Quality</th>
+                              <th scope="col">Play</th>
+                            </tr>
+                          </thead>`);
+              tableTerminados.append(`<tbody></tbody>`);
+              container.parent().find('.terminados').append()
+              terminados.forEach(async t=>{
+                var r = await $.post('/uploader/getJobByID',{id: t.id});
+                try {
+                  console.log("Terminado ==> ",r[0]);
+                  tableTerminados.append(`<tr>
+                              <td>${r[0].id}</th>
+                              <td>${r[0].assignedQueue}</td>
+                              <td>${r[0].executionTime * 1000}s</td>
+                              <td>${r[0].state}</td>
+                              <td>${r[0].storageprovider}</td>
+                              <td>${r[0].totalparts}</td>
+                              <td>${r[0].params}</td>
+                              <td><a href="javascript:void(0);" class="btn" onclick="openVideo('${r[0].bloburl}')"><i class="icon fa fa-play"></i></a></td>
+                            </tr>`);
+                } catch (error) {
+                    console.log(error);
+                }
+              });
+              if(container.parent().find('.terminados').length && container.parent().find('.terminados table tr').length != terminados.length + 1){
+                container.parent().find('.terminados').empty();
+                container.parent().find('.terminados').append(tableTerminados);
+              }
+            }
+            
+            if(resp.length == 0){
+              container.parent().find('.enProceso').empty();
+              return resolve('Finished');
+            }else{
+              if(!container.parent().find('.enProceso')){
+                container.parent().append(table);
+              }else{
+                container.parent().find('.enProceso').html(`${table}`);
+              }
+            }
+
+            return await finishedProcess(name,container);
+          }else{
+            container.parent().parent().find('.enProceso').empty();
+          }
+        }, 1000);
+        resolve('Finished');
+      } catch (error) {
+        reject({error});
+      }
+      
+    })
+  }
+  var comparator = function (a, b) {
+    return a.id === b.id
+  };  
+  var registrarTerminado = function (contenedor,tabla){
+    contenedor.parent().find('.terminados').empty()
+    contenedor.parent().find('.terminados').append(tabla);
+  }
+</script>

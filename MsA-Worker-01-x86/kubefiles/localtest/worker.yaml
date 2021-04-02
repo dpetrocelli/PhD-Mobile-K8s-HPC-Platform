@@ -1,0 +1,5 @@
+version: '3'
+
+services:
+  worker:
+    image: dpetrocelli/dev-workerx86:latest

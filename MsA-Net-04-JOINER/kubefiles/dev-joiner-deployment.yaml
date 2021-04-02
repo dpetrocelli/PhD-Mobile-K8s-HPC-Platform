@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dev-joiner
+  labels:
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dev-joiner
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: dev-joiner
+        tier: backend
+    spec:
+      containers:
+      - name: dev-joiner
+        image: dpetrocelli/dev-joiner
+        resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits:
+            cpu: 2000m
+            memory: 1500Mi

@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dev-workerx86
+  labels:
+    tier: backend
+spec:
+  selector:
+    matchLabels:
+      app: dev-workerx86
+      tier: backend
+  replicas: 4  
+  template:
+    metadata:
+      labels:
+        app: dev-workerx86
+        tier: backend
+    spec:
+      containers:
+      - name: dev-workerx86
+        image: dpetrocelli/dev-workerx86
+        resources:
+          requests:
+            cpu: 200m
+            memory: 200Mi
+          limits:
+            cpu: 2000m
+            memory: 2000Mi
